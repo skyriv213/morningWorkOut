@@ -1,13 +1,5 @@
 package com.sparta.morningworkout.config;
 
-
-
-import com.sparta.morningworkout.jwtUtil.JwtUtil;
-import com.sparta.morningworkout.security.CustomAccessDeniedHandler;
-import com.sparta.morningworkout.security.CustomAuthenticationEntryPoint;
-import com.sparta.morningworkout.security.JwtAuthFilter;
-import com.sparta.morningworkout.security.UserDetailsServiceImpl;
-import lombok.RequiredArgsConstructor;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -19,6 +11,14 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+
+import com.sparta.morningworkout.jwtUtil.JwtUtil;
+import com.sparta.morningworkout.security.CustomAccessDeniedHandler;
+import com.sparta.morningworkout.security.CustomAuthenticationEntryPoint;
+import com.sparta.morningworkout.security.JwtAuthFilter;
+import com.sparta.morningworkout.security.UserDetailsServiceImpl;
+
+import lombok.RequiredArgsConstructor;
 
 
 @Configuration
@@ -44,6 +44,7 @@ public class SecurityConfig {
                 .requestMatchers("/users/sign")
                 .requestMatchers("/users/login")
                 .requestMatchers("/docs/**")
+                .requestMatchers("/chatrooms/**")
                 .requestMatchers("/users/logout");
 
     }
@@ -58,14 +59,18 @@ public class SecurityConfig {
                 .requestMatchers("/products/seller/**").hasAnyRole("SELLER")
                 .requestMatchers("/admin/**").hasAnyRole("ADMIN")
                 .requestMatchers("/admin/**").hasAnyRole("ADMIN")
-                 // Enum형태로 넣으면 인식 못함!
+                // Enum형태로 넣으면 인식 못함!
                 .requestMatchers("/products/list").permitAll()
                 .requestMatchers("/products/search/**").permitAll()
                 .requestMatchers("/products/list/seller/**").permitAll()
                 .requestMatchers("/point/**").permitAll()
                 .requestMatchers("/point/admin").hasAnyRole("ADMIN")
+                .requestMatchers("/ws/**").permitAll()
                 .requestMatchers("/chat/**").permitAll()
                 .requestMatchers("/chatroom/**").permitAll()
+                .requestMatchers("/chatrooms/**").permitAll()
+                .requestMatchers("/sub/**").permitAll()
+                .requestMatchers("/pub/**").permitAll()
                 .requestMatchers("/customers/**").hasAnyRole("CUSTOMER")
                 .requestMatchers("/profile/**").permitAll()
                 .requestMatchers("/sellers/**").hasAnyRole("SELLER")
